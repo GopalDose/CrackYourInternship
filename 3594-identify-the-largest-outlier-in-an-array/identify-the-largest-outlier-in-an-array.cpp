@@ -1,21 +1,26 @@
 class Solution {
 public:
     int getLargestOutlier(vector<int>& nums) {
-        unordered_map<int, int> mp;
         int sum = 0;
-        for (auto i : nums) {
-            mp[i]++;
-            sum += i;
+        unordered_map<int, int> freq;
+        for (int num : nums) {
+            sum += num;
+            freq[num]++;
         }
 
         int res = INT_MIN;
-        for (auto i : nums) {
-            int newSum = sum - i;
-            mp[i]--;
-            if ( newSum%2 == 0 && mp.find(newSum / 2) != mp.end() && mp[newSum / 2] > 0)
-                res = max(res, i);
-            mp[i]++;
+
+        for (int num : nums) {
+            int newSum = sum - num;
+            if (newSum % 2 == 0) {
+                int target = newSum / 2;
+                if ((target != num && freq.count(target)) ||
+                    (target == num && freq[num] > 1)) {
+                    res = max(res, num);
+                }
+            }
         }
-        return res;
+
+        return res == INT_MIN ? -1 : res;
     }
 };
