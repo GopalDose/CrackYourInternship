@@ -1,30 +1,37 @@
 class Solution {
 public:
     bool canChange(string start, string target) {
-        int size = start.length();
-        int i = 0;
+        string snu = removeU(start);
+        string tnu = removeU(target);
+        
+        if (snu != tnu) 
+            return false;
+        
+        int n = start.length();
         int j = 0;
-
-        while (i < size || j < size) {
-            if (start[i] == '_' && target[j] == '_') {
-                i++;
+        
+        for (int i = 0; i < n; i++) {
+            if (start[i] == 'L') {
+                while (j < n && target[j] != 'L') j++;
+                if (j > i) return false;
                 j++;
-            } else if (start[i] == '_')
-                i++;
-            else if (target[j] == '_')
-                j++;
-            else if (start[i] != target[j])
-                return false;
-            else if (start[i] == 'L' && i < j)
-                return false;
-            else if (start[i] == 'R' && i > j)
-                return false;
-            else {
-                i++;
+            }
+            else if (start[i] == 'R') {
+                while (j < n && target[j] != 'R') j++;
+                if (j < i) return false;
                 j++;
             }
         }
-
+        
         return true;
+    }
+    
+private:
+    string removeU(const string& s) {
+        string result;
+        for (char c : s) {
+            if (c != '_') result += c;
+        }
+        return result;
     }
 };
