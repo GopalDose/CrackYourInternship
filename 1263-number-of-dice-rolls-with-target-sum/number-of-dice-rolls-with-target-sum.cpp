@@ -1,28 +1,23 @@
 class Solution {
 public:
-const int mod = (int)pow(10, 9) + 7; 
-    int solve(int n, int k, int target, vector<vector<int>>& dp) {
-        if (n < 0)
-            return 0;
-        if (n == 0 && target == 0)
-            return 1;
-        if (n == 0 && target != 0)
-            return 0;
-        if (n != 0 && target == 0)
-            return 0;
+    const int mod = (int)pow(10, 9) + 7;
+    int solve(int n, int k, int target) {
+        vector<vector<int>> dp(n + 1, vector<int>(target + 1, 0));
+        dp[0][0] = 1;
 
-        if (dp[n][target] != -1)
-            return dp[n][target]%mod;
-        int ways = 0;
-        for (int i = 1; i <= k; i++) {
-            if(target-i >= 0) 
-                ways = (ways%mod + solve(n - 1, k, target - i, dp)%mod)%mod;
+        for (int index = 1; index <= n; index++) {
+            for (int j = 1; j <= target; j++) {
+                int ans = 0;
+                for (int i = 1; i <= k; i++) {
+                    if (j - i >= 0)  // Corrected condition
+                        ans = (ans % mod + (dp[index - 1][j - i]) % mod) % mod;
+                }
+                dp[index][j] = ans;
+            }
         }
-        dp[n][target] = ways;
         return dp[n][target];
     }
     int numRollsToTarget(int n, int k, int target) {
-        vector<vector<int>> dp(n + 1, vector<int>(target + 1, -1));
-        return solve(n, k, target, dp);
+        return solve(n, k, target);
     }
 };
