@@ -1,7 +1,7 @@
 class Solution {
 public:
     int longestConsecutive(vector<int>& a) {
-        int n = a.size();
+    int n = a.size();
     if (n == 0) return 0;
 
     int longest = 1;
@@ -12,6 +12,7 @@ public:
 
     for (auto it : st) {
         if (st.find(it - 1) == st.end()) {
+            //find consecutive numbers:
             int cnt = 1;
             int x = it;
             while (st.find(x + 1) != st.end()) {
