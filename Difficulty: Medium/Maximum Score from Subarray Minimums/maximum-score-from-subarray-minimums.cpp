@@ -13,8 +13,8 @@ class Solution {
         // Your code goes here
         int maxi = 0;
         
-        for(int i = 0; i<arr.size()-1; i++){
-            maxi = max(maxi, arr[i]+arr[i+1]);
+        for(int i = 1; i<arr.size(); i++){
+            maxi = max(maxi, arr[i]+arr[i-1]);
         }
         return maxi;
     }
